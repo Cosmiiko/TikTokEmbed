@@ -1,0 +1,5 @@
+{
+    "debug": true,
+    "redirectUnknownAgents": false,
+    "httpPort": 80
+}
