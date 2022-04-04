@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "npm install && node --es-module-specifier-resolution=node index"
+    "start": "node --es-module-specifier-resolution=node ./src/index"
   },
   "author": "Cosmiiko#5700",
   "license": "MIT",

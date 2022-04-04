@@ -2,7 +2,8 @@ import express from 'express';
 import scraper from 'tiktok-scraper';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
-import { verboseLog } from './utils';
+import path from 'path';
+import { dirname, verboseLog } from './utils';
 
 const DISCORD_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0) Gecko/20100101 Firefox/38.0',
@@ -18,7 +19,9 @@ dotenv.config();
 const app = express();
 
 app.set('view engine', 'ejs');
-app.use('/public', express.static('public'));
+app.set('views', path.join(dirname(import.meta), 'views'));
+
+app.use('/public', express.static(path.join(dirname(import.meta), 'public')));
 
 app.get('/', (_req, res) => {
     res.render('home');
@@ -26,7 +29,8 @@ app.get('/', (_req, res) => {
 
 // Normal format 
 app.get('/:username/video/:id', (req, res) => {
-    serveContent(`https://www.tiktok.com/${req.params['username']}/video/${req.params['id']}`, req, res);
+    serveContent(`https://www.tiktok.com/${req.params['username']}/video/${req.params['id']}`,
+        req, res);
 });
 
 // Shortlink ('vm') format
@@ -73,7 +77,8 @@ app.get('/:shortid', (req, res) => {
 function serveContent(link, req, res) {
     verboseLog('request from:', req.headers['user-agent']);
 
-    if (!DISCORD_AGENTS.includes(req.headers['user-agent']) && config.redirectUnknownAgents) {
+    if (!DISCORD_AGENTS.includes(req.headers['user-agent']) &&
+        process.env.REDIRECT_UNKNOWN_AGENTS == 'true') {
         res.writeHead(302, {
             'location': link
         });
