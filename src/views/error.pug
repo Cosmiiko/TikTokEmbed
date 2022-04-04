@@ -1,0 +1,13 @@
+doctype html 
+
+html 
+    head
+        include includes/globalHead.pug
+
+    body(class='preload') 
+        div(class='centered')
+            div(class='message warning')
+                | An error occurred while fetching this TikTok video: #[br]
+                | #{error}
+                
+            include includes/githubBtn.pug

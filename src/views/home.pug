@@ -1,0 +1,20 @@
+doctype html
+
+html 
+    head 
+        include includes/globalHead.pug
+
+    body(class='preload') 
+        div(class='centered') 
+            div(class='message info') 
+                b Welcome to TikTokEmbed! 
+                div(class='spacer')
+                | TikTokEmbed is a service that aims to fix TikTok's #[br]
+                | Discord embeds in order to display videos properly.
+                div(class='spacer')
+                | To get started, simply replace the
+                span(class='code') https://vm.tiktok.com/
+                | part of the link of the video post you want to share with
+                span(class='code') https://vm.tiktok#[b embed].com
+                
+            include includes/githubBtn.pug

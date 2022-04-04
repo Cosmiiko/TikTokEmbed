@@ -18,7 +18,7 @@ const DESKTOP_HEADERS = {
 dotenv.config();
 const app = express();
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 app.set('views', path.join(dirname(import.meta), 'views'));
 
 app.use('/public', express.static(path.join(dirname(import.meta), 'public')));
@@ -98,13 +98,10 @@ function serveContent(link, req, res) {
         }
 
         res.render('response', {
-            data: {
-                description: vidData.text,
-                imgUrl: vidData.imageUrl,
-                vidUrl: vidData.videoUrl,
-                author: vidData.authorMeta.name,
-                link
-            }
+            description: vidData.text,
+            vidUrl: vidData.videoUrl,
+            author: vidData.authorMeta.name,
+            link
         });
     }).catch(err => {
         res.render('error', {

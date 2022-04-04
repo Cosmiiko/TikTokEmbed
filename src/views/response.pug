@@ -1,0 +1,37 @@
+doctype html 
+
+html 
+    head 
+        include includes/globalHead.pug
+
+        // Opengraph tags
+        meta(property='og:site_name' content='TikTok Embed | tiktokembed.com')
+        meta(property='og:title' content='@' + author + ' - ' + description)
+        meta(property='og:url' content=link)
+
+        meta(property='og:type' content='video.movie')
+        meta(property='og:video' content=vidUrl)
+        meta(property='og:video:secure_url' content=vidUrl)
+        meta(property='og:video:type' content='video/mp4')
+        meta(property='og:video:width' content='1080')
+        meta(property='og:video:height' content='1920')
+
+        // Twitter cards
+        meta(name='twitter:card' content='player')
+        meta(name='twitter:player' content=vidUrl)
+        meta(name='twitter:player:width' content='1080')
+        meta(name='twitter:player:height' content='1920')
+        meta(name='twitter:player:stream' content=vidUrl)
+        meta(name='twitter:player:stream:content_type' content='video/mp4')
+
+    body(class='preload')
+        div(class='centered')
+            a(href=link class='button' id='tiktokBtn')
+                i(class='fa-brands fa-tiktok')
+                | See on TikTok 
+
+            a(href=vidUrl class='button' id='miscBtn')
+                i(class='far fa-file-video')
+                | Direct link to video
+
+            include includes/githubBtn.pug
