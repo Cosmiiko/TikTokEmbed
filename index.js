@@ -1,6 +1,8 @@
-const express = require('express');
-const scraper = require('tiktok-scraper');
-const { default: fetch } = require('node-fetch');
+import express from 'express';
+import scraper from 'tiktok-scraper';
+import fetch from 'node-fetch';
+import dotenv from 'dotenv';
+import { verboseLog } from './utils';
 
 const DISCORD_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0) Gecko/20100101 Firefox/38.0',
@@ -12,7 +14,7 @@ const DESKTOP_HEADERS = {
     'Referer': "https://www.tiktok.com/"
 };
 
-const config = require('./config.json');
+dotenv.config();
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -53,8 +55,7 @@ app.get('/:shortid', (req, res) => {
                     error: 'Couldn\'t follow redirects.'
                 });
 
-                if (console.debug)
-                    console.log("Redirect error:", err);
+                verboseLog('redirect error:', err);
             });
         }
         else {
@@ -65,14 +66,12 @@ app.get('/:shortid', (req, res) => {
             error: 'Couldn\'t follow redirects.'
         });
 
-        if (console.debug) 
-            console.log("Redirect error:", err);
+        verboseLog('redirect error:', err);
     });
 });
 
 function serveContent(link, req, res) {
-    if (console.debug)
-        console.log('request from:', req.headers['user-agent']);
+    verboseLog('request from:', req.headers['user-agent']);
 
     if (!DISCORD_AGENTS.includes(req.headers['user-agent']) && config.redirectUnknownAgents) {
         res.writeHead(302, {
@@ -107,14 +106,12 @@ function serveContent(link, req, res) {
             error: 'Couldn\'t fetch video metadata.'
         });
 
-        if (config.debug) {
-            console.log('Couldn\'t fetch video metadata:', err);
-        }
+        verboseLog('Couldn\'t fetch video metadata:', err);
 
         return;
     });
 };
 
-app.listen(config.httpPort, () => {
-    console.log('web server listening on port:', config.httpPort);
+app.listen(parseInt(process.env.HTTP_PORT), () => {
+    console.log('web server listening on port:', process.env.HTTP_PORT);
 });
